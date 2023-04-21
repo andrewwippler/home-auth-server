@@ -34,11 +34,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-      working-directory: ./api
-    - run: cp ./api/.env.test ./api/.env
+      working-directory: ./authserv
+    - run: cp ./authserv/.env.test ./authserv/.env
     - run: sleep 5
     - run: npm run test:coverage
-      working-directory: ./api
+      working-directory: ./authserv
       env:
         CI: true
         MYSQL_PORT: ${{ job.services.mariadb.ports[3306] }}
