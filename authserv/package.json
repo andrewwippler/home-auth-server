@@ -7,6 +7,7 @@
     "build": "node ace build --production",
     "start": "node server.js",
     "test": "node ace test",
+    "test:coverage": "c8 npm run test",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write ."
   },
@@ -61,6 +62,7 @@
     "@adonisjs/lucid": "^18.3.0",
     "@adonisjs/redis": "^7.3.2",
     "@adonisjs/repl": "^3.1.0",
+    "c8": "^7.13.0",
     "luxon": "^3.3.0",
     "mysql2": "^3.2.3",
     "proxy-addr": "^2.0.7",
