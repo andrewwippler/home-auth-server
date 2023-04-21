@@ -1,0 +1,15 @@
+version: '2'
+services:
+  db:
+    image: mysql:8
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: adonis
+      MYSQL_DATABASE: homeauth
+    ports:
+      - 3306:3306
+  redis:
+    image: redis:5-alpine
+    ports:
+      - 6379:6379

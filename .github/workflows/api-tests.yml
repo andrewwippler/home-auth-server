@@ -1,0 +1,49 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: API Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    services:
+      mariadb:
+        image: mariadb:10
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: testing
+          MYSQL_ROOT_PASSWORD: adonis
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+      working-directory: ./api
+    - run: cp ./api/.env.test ./api/.env
+    - run: sleep 5
+    - run: npm run test:coverage
+      working-directory: ./api
+      env:
+        CI: true
+        MYSQL_PORT: ${{ job.services.mariadb.ports[3306] }}
+        REDIS_PORT: ${{ job.services.redis.ports[6379] }}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Test-Coverage
+        path: authserv/coverage # or path/to/artifact
