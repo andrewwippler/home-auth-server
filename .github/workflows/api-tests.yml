@@ -22,6 +22,10 @@ jobs:
         env:
           MYSQL_DATABASE: testing
           MYSQL_ROOT_PASSWORD: adonis
+      redis:
+        image: redis:5-alpine
+        ports:
+          - 6379:6379
 
     strategy:
       matrix:
