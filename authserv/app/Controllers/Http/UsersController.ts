@@ -26,7 +26,7 @@ export default class UsersController {
       await limiter.delete(throttleKey)
 
       const usr = await User.findBy('email', email)
-      return { token: token.token, uid: usr.uid }
+      return { token: token.token, uid: usr?.uid }
     } catch (error) {
       // console.log("login error: ", error)
       await limiter.increment(throttleKey)
